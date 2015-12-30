@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface TwoTableViewCell : UITableViewCell
+@interface TwoTableViewCell : UITableViewCell<UIScrollViewDelegate>
 
 @end

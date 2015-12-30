@@ -10,8 +10,7 @@
 #define KWidth [UIScreen mainScreen].bounds.size.width
 
 @interface TwoTableViewCell()
-@property(nonatomic, retain) UISegmentedControl *segmentedControl;
-
+@property(nonatomic, retain) UIScrollView *scrollView;
 @end
 @implementation TwoTableViewCell
 - (instancetype)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier{
@@ -28,22 +27,35 @@
 //    self.segmentedControl.frame = CGRectMake(0, 0, KWidth, 40);
 //    self.segmentedControl.tintColor = [UIColor whiteColor];
 //    [self addSubview:self.segmentedControl];
-    for (int i = 0; i < 6; i++) {
+    NSArray *title = @[@"头条", @"娱乐", @"热点", @"体育", @"洛阳", @"财经", @"科技", @"图片", @"跟帖", @"汽车"];
+    self.scrollView = [[UIScrollView alloc] initWithFrame:CGRectMake(0, 0, KWidth, 40)];
+    self.scrollView.contentSize = CGSizeMake(KWidth * 2, 40);
+    for (int i = 0; i < 10; i++) {
+        UIScrollView *scroll = [[UIScrollView alloc] initWithFrame:CGRectMake(KWidth / 5 * i, 0, KWidth / 5, 40)];
         UIButton *button1 = [UIButton buttonWithType:UIButtonTypeCustom];
+        button1.tag = 123;
         button1.frame = CGRectMake(0, 0, KWidth / 6, 40);
-        [button1 setTitle:@"头条" forState:UIControlStateNormal];
+        [button1 setTitle:title[i] forState:UIControlStateNormal];
+        [button1 setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
         [button1 addTarget:self action:@selector(big:) forControlEvents:UIControlEventTouchUpInside];
-        [self addSubview:button1];
+        
+        [scroll addSubview:button1];
+        [self.scrollView addSubview:scroll];
     }
-
-    
+    self.scrollView.delegate = self;
+    [self addSubview:self.scrollView];
     
 }
 
 - (void)big:(UIButton *)btn{
-     
+    btn.titleLabel.font = [UIFont systemFontOfSize:20];
+    [btn setTitleColor:[UIColor redColor] forState:(UIControlStateNormal)];
 }
 
+- (UIView *)viewForZoomingInScrollView:(UIScrollView *)scrollView{
+    UIButton *zoom = [(UIButton *)scrollView viewWithTag:123];
+    return zoom;
+}
 
 
 
